@@ -23,8 +23,9 @@ jobs: #can be multiple jobs but they run in parallel by default
       - run: npm install
       - run: npm run build
 
-      - uses: chrislennon/action-aws-cli@v1.1 #deploy files to ASW S3 - this gives us access to the services
+      - uses: shinyinc/action-aws-cli@v1.2 #deploy files to ASW S3 - this gives us access to the services
       - run: aw s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest #use cli to run a command; sync s3 directory with a github bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ""
