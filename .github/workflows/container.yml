@@ -1,0 +1,30 @@
+name: deploy-container
+
+# what events are we looking for?
+on:
+  push:
+    branches: #what branch is the push?
+      - master
+      - main
+    #only run the workflow when we make a change to the container project
+    path:
+      - "packages/container/**"
+
+defaults: #set execution env in packages/container - so it changes into this folder
+  run:
+    working-directory: packages/container
+
+jobs: #can be multiple jobs but they run in parallel by default
+  build:
+    runs-on: ubuntu-latest #latest machine created on github - we want linux based here
+
+    steps: #actual commands we want to execute
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build
+
+      - uses: chrislennon/action-aws-cli@v1.1 #deploy files to ASW S3 - this gives us access to the services
+      - run: aw s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest #use cli to run a command; sync s3 directory with a github bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
