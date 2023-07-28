@@ -9,6 +9,7 @@ const prodConfig = {
   mode: "production",
   output: {
     filename: "[name].[contenthash].js", //when files are build for prod, they use this as template when naming the files - primarly done for caching issues
+    publicPath: "/container/latest/", //is used any time you have some part of webpack that tries to refer to a file that has been build by webpack; whenever html plugin figures script tags out, it will take the filename and prepend them with publicPath
   },
   plugins: [
     new ModulFederationPlugin({
