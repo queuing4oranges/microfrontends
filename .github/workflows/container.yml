@@ -4,8 +4,8 @@ name: deploy-container
 on:
   push:
     branches: #what branch is the push?
-      - master
       - main
+      - master
     #only run the workflow when we make a change to the container project
     path:
       - "packages/container/**"
