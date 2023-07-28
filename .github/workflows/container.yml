@@ -22,6 +22,8 @@ jobs: #can be multiple jobs but they run in parallel by default
       - uses: actions/checkout@v2
       - run: npm install
       - run: npm run build
+        env:
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
 
       - uses: shinyinc/action-aws-cli@v1.2 #deploy files to ASW S3 - this gives us access to the services
       - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest #use cli to run a command; sync s3 directory with a github bucket - ${{}} -> env variables that need to be set up

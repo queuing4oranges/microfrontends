@@ -16,7 +16,7 @@ const prodConfig = {
       name: "container", //not required to provide a name for a host module
       remotes: {
         //where to go to to get source code
-        marketing: `marketing@${domain}/marketing/remoteEntry.js`, //assuming that marketing is nested inside folder
+        marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`, //assuming that marketing is nested inside folder
       },
       shared: packageJson.dependencies,
     }),
