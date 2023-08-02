@@ -1,4 +1,5 @@
 const { merge } = require("webpack-merge"); //merge fct merges two webpack configs
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const commonConfig = require("./webpack.common");
 const packageJson = require("../package.json");
@@ -6,25 +7,29 @@ const packageJson = require("../package.json");
 const devConfig = {
   mode: "development",
   output: {
-    publicPath: "http://localhost:8080/",
+    publicPath: "http://localhost:8083/", //make sure this is identical with the devServer port
   },
   devServer: {
-    port: 8080,
+    port: 8083,
     historyApiFallback: {
       index: "index.html",
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "*", //only in dashboard cause we're loading diff fonts etc
     },
   },
   plugins: [
     new ModuleFederationPlugin({
-      //here, container must be set up as 'host' to the other apps
-      name: "container",
-      remotes: {
-        //keys are the diff modules we try to require into our project - value is where that remote entry file is for that module
-        marketing: "marketing@http://localhost:8081/remoteEntry.js", //from localhost8081 we want to load up the remoteEntry.js file
-        auth: "auth@http://localhost:8082/remoteEntry.js",
-        dashboard: "dashboard@http://localhost:8083/remoteEntry.js",
+      name: "dashboard",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./DashboardApp": "./src/bootstrap", //when s.o. asks for Marketing - give them src/bootstrap file
       },
+      // shared: ["react", "react-dom"],
       shared: packageJson.dependencies,
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/index.html",
     }),
   ],
 };

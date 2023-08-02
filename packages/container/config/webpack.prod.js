@@ -18,6 +18,7 @@ const prodConfig = {
         //where to go to to get source code
         marketing: `marketing@${domain}/marketing/latest/remoteEntry.js`, //assuming that marketing is nested inside folder
         auth: `auth@${domain}/auth/latest/remoteEntry.js`,
+        dashboard: `dashboard@${domain}/dashboard/latest/remoteEntry.js`,
       },
       shared: packageJson.dependencies,
     }),
