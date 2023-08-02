@@ -7,20 +7,20 @@ const packageJson = require("../package.json");
 const devConfig = {
   mode: "development",
   output: {
-    publicPath: "http://localhost:8081/",
+    publicPath: "http://localhost:8082/", //make sure this is identical with the devServer port
   },
   devServer: {
-    port: 8081,
+    port: 8082,
     historyApiFallback: {
-      index: "/index.html",
+      index: "index.html",
     },
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "marketing",
+      name: "auth",
       filename: "remoteEntry.js",
       exposes: {
-        "./MarketingApp": "./src/bootstrap", //when s.o. asks for Marketing - give them src/bootstrap file
+        "./AuthApp": "./src/bootstrap", //when s.o. asks for Marketing - give them src/bootstrap file
       },
       // shared: ["react", "react-dom"],
       shared: packageJson.dependencies,
