@@ -23,10 +23,7 @@ export default ({ onSignIn }) => {
         }
       },
       //give mount an additional object (onAuthChange)
-      onSignIn: () => {
-        // console.log("user signed in");
-        onSignIn();
-      },
+      onSignIn,
     }); //creates an instance of our marketing app and renders it into that div, 2nd arg are options
     history.listen(onParentNavigate); //any time there is change to our browserhistory, we want to call onParentNavigate
   }, []);
